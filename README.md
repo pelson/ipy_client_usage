@@ -34,6 +34,8 @@ result = view.map_async(time.sleep, lengths)
 # Map the UUID (from the result), to the name that we care about.
 uuid_to_name = dict(zip(result.msg_ids, names))
 
+view.wait()
+
 with open('cluster_dump.json', 'w') as fh:
     ipy_client_usage.dump(fh, view, uuid_to_name)
 
@@ -63,7 +65,7 @@ Passing the filename of the dump file will result in a matplotlib figure display
 python -m ipy_client_usage.view cluster_dump.json
 ```
 
-![ipy_client_usage.view output](docs/images/cluster_dump.json)
+![ipy_client_usage.view output](docs/cluster_dump.png)
 
 
 Watching usage
@@ -75,6 +77,8 @@ drop-in replacement for ``client.wait`` which repeatedly updates the dump file w
 In the earlier example:
 
 ```
+view.wait()
+
 with open('cluster_dump.json', 'w') as fh:
     ipy_client_usage.dump(fh, view, uuid_to_name)
 ```
@@ -82,7 +86,7 @@ with open('cluster_dump.json', 'w') as fh:
 Could be replaced with:
 
 ```
-ipy_client_usage.watch_and_dump('cluster_dump.json', view, uuid_to_name)
+ipy_client_usage.wait_and_dump('cluster_dump.json', view, uuid_to_name)
 ```
 
 This can be watched with:
